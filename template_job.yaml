@@ -1,0 +1,24 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-_S3_SRC_BUCKET_
+  namespace: _NAMESPACE_
+  labels:
+    app: s3-sync
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: _S3_SRC_BUCKET_-backup
+        image: docker pull ozmate/s3-sync-buckets:0.0.1
+        env:
+          - name: S3_SRC_USER_KEY_ID
+            value: "_S3_SRC_USER_KEY_ID_"
+          - name: S3_SRC_USER_SECRET_KEY
+            value: "_S3_SRC_USER_SECRET_KEY_"
+          - name: S3_SRC_BUCKET
+            value: "_S3_SRC_BUCKET_"
+          - name: S3_DEST_BUCKET
+            value: "_S3_DEST_BUCKET_"

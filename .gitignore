@@ -1,3 +1,5 @@
 docker-env-vars.env
 s3-bucket-policy
 set-vars.sh
+buckets.csv
+output/*
