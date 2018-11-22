@@ -12,7 +12,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: _S3_SRC_BUCKET_-backup
-        image: docker pull ozmate/s3-sync-buckets:latest
+        image: ozmate/s3-sync-buckets:latest
         env:
           - name: S3_SRC_USER_KEY_ID
             value: "_S3_SRC_USER_KEY_ID_"
