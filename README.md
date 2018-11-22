@@ -79,7 +79,8 @@ Then create and attach an IAM policy to this user:
             "Resource": "*"
         }
     ]
-}```
+}
+```
 
 ## Step 3. Preparing a list
 Now we need to prepare a file containing details for syncing jobs.
