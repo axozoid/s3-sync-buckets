@@ -30,7 +30,7 @@ while read -r line; do
   K8S_NS=$(echo "$line" | cut -d";" -f5)
 
   NEW_JOB_FILE="${OUT_DIR}/${S3_SRC}-job.yaml"
-  cp ${TEMPLATE_FILE} ${NEW_JOB_FILE}
+  cp -f ${TEMPLATE_FILE} ${NEW_JOB_FILE}
   echo "Processing file ${NEW_JOB_FILE}.."
   sed -i '' "s|_S3_SRC_BUCKET_|${S3_SRC}|g" ${NEW_JOB_FILE}
   sed -i '' "s|_S3_DEST_BUCKET_|${S3_DEST}|g" ${NEW_JOB_FILE}
