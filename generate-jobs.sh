@@ -17,6 +17,7 @@ fi
 [[ -f ${TEMPLATE_FILE} ]] || { echo "ERROR: No template file specified.";  exit 1; }
 
 K=0
+G=0
 while read -r line; do
   # 1st column - source bucket
   # 2nd column - destination bucket
@@ -28,7 +29,6 @@ while read -r line; do
   S3_USER_KEY=$(echo "$line" | cut -d";" -f3)
   S3_USER_SECRET_KEY=$(echo "$line" | cut -d";" -f4)
   K8S_NS=$(echo "$line" | cut -d";" -f5)
-
   NEW_JOB_FILE="${OUT_DIR}/${S3_SRC}-job.yaml"
   cp -f ${TEMPLATE_FILE} ${NEW_JOB_FILE}
   echo "Processing file ${NEW_JOB_FILE}.."
@@ -38,8 +38,11 @@ while read -r line; do
   sed -i '' "s|_S3_SRC_USER_SECRET_KEY_|${S3_USER_SECRET_KEY}|g" ${NEW_JOB_FILE}
   sed -i '' "s|_NAMESPACE_|${K8S_NS}|g" ${NEW_JOB_FILE}
   ((K++))
-  [[ ${DRY_RUN} == 'false' ]] && kubectl create -f ${NEW_JOB_FILE}
+  if [ ${DRY_RUN} == 'false' ]; then
+    kubectl create -f ${NEW_JOB_FILE}
+    [[ $? -eq 0 ]] && ((G++))
+  fi
 done < "${INPUT_FILE}"
-echo "DONE. Files generated: ${K}."
+echo -e "Processing completed.\n- Files generated: ${K}.\n- Jobs launched: ${G}."
 
-[[ ${DRY_RUN} == 'false' ]] && { kubectl -n "${K8S_NS}" get jobs; kubectl -n "${K8S_NS}" get pods; }
+[[ ${DRY_RUN} == 'false' ]] && { sleep 5s; kubectl -n "${K8S_NS}" get jobs; kubectl -n "${K8S_NS}" get pods; }
