@@ -13,8 +13,8 @@ if [ ${DRY_RUN} == 'true' ]; then
 fi
 
 [[ -d ${OUT_DIR} ]] || mkdir -p ${OUT_DIR}
-[[ -f ${INPUT_FILE} ]] || { echo "ERROR: No input file specified.";  exit 1; }
-[[ -f ${TEMPLATE_FILE} ]] || { echo "ERROR: No template file specified.";  exit 1; }
+[[ -f ${INPUT_FILE} ]] || { echo "ERROR: Input file doesn't exist or can't be read.";  exit 1; }
+[[ -f ${TEMPLATE_FILE} ]] || { echo "ERROR: Template file doesn't exist or can't be read.";  exit 1; }
 
 K=0
 G=0
